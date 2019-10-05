@@ -48,9 +48,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="MecanumTeleop", group="Linear Opmode")
+@TeleOp(name="MecanumTeleopV2", group="Linear Opmode")
 //@Disabled
-public class MecanumTeleop extends LinearOpMode {
+public class MecanumTeleopV2 extends LinearOpMode {
 
     private HardwarePushbot_BucketBrigade robot = new HardwarePushbot_BucketBrigade();
     @Override
@@ -71,7 +71,6 @@ public class MecanumTeleop extends LinearOpMode {
         robot.FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         robot.BackRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -80,36 +79,10 @@ public class MecanumTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
-
-        if (gamepad1.left_stick_y < 0){
-            robot.FrontLeftDrive.setPower(1);
-            robot.BackLeftDrive.setPower(1);
-        }
-        else if (gamepad1.left_stick_y > 0){
-            robot.FrontLeftDrive.setPower(-1);
-            robot.BackLeftDrive.setPower(-1);
-        }
-
-        if (gamepad1.right_stick_y < 0){
-                robot.FrontRightDrive.setPower(1);
-                robot.BackRightDrive.setPower(1);
-            }
-        else if (gamepad1.right_stick_y > 0){
-                robot.FrontRightDrive.setPower(-1);
-                robot.BackRightDrive.setPower(-1);
-        }
-        if (gamepad1.left_trigger > 0){
-            robot.FrontLeftDrive.setPower(-1);
-            robot.BackLeftDrive.setPower(1);
-            robot.FrontRightDrive.setPower(1);
-            robot.BackRightDrive.setPower(-1);
-        }
-        else if (gamepad1.right_trigger > 0){
-            robot.FrontLeftDrive.setPower(1);
-            robot.BackLeftDrive.setPower(-1);
-            robot.FrontRightDrive.setPower(-1);
-            robot.BackRightDrive.setPower(1);
-        }
+            robot.FrontRightDrive.setPower(gamepad1.right_stick_y);
+            robot.BackRightDrive.setPower(gamepad1.right_stick_y);
+            robot.FrontLeftDrive.setPower(gamepad1.left_stick_y);
+            robot.BackLeftDrive.setPower(gamepad1.left_stick_y);
 
             // Send calculated power to wheels
 

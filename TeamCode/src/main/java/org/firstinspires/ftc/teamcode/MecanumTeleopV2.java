@@ -79,10 +79,10 @@ public class MecanumTeleopV2 extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
-            robot.FrontRightDrive.setPower(gamepad1.right_stick_y);
-            robot.BackRightDrive.setPower(gamepad1.right_stick_y);
+            robot.FrontRightDrive.setPower(-gamepad1.right_stick_y);
+            robot.BackRightDrive.setPower(-gamepad1.right_stick_y);
             robot.FrontLeftDrive.setPower(gamepad1.left_stick_y);
-            robot.BackLeftDrive.setPower(gamepad1.left_stick_y);
+            robot.BackLeftDrive.setPower(-gamepad1.left_stick_y);
 
             // Send calculated power to wheels
 

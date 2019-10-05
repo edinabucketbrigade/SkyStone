@@ -27,8 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -49,17 +50,14 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="BasicTeleOp", group="Linear Opmode")
-//@Disabled
-public class BasicTeleOp extends LinearOpMode {
+@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@Disabled
+public class BasicOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor FleftDrive = null;
-    private DcMotor FrightDrive = null;
-    private DcMotor BleftDrive = null;
-    private DcMotor BrightDrive = null;
-
+    private DcMotor leftDrive = null;
+    private DcMotor rightDrive = null;
 
     @Override
     public void runOpMode() {
@@ -69,17 +67,13 @@ public class BasicTeleOp extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        FleftDrive  = hardwareMap.get(DcMotor.class, "Fleft_drive");
-        FrightDrive = hardwareMap.get(DcMotor.class, "Fright_drive");
-        BleftDrive = hardwareMap.get(DcMotor.class,"Bleft_drive" );
-        BrightDrive = hardwareMap.get(DcMotor.class,"Bright_drive" );
+        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        FleftDrive.setDirection(DcMotor.Direction.FORWARD);
-        BleftDrive.setDirection(DcMotor.Direction.FORWARD);
-        FrightDrive.setDirection(DcMotor.Direction.REVERSE);
-        BleftDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -89,10 +83,8 @@ public class BasicTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
-            double FleftPower;
-            double FrightPower;
-            double BleftPower;
-            double BrightPower;
+            double leftPower;
+            double rightPower;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -101,10 +93,8 @@ public class BasicTeleOp extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
-            FleftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            FrightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            BleftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            BrightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -112,15 +102,12 @@ public class BasicTeleOp extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
-            FleftDrive.setPower(FleftPower);
-            FrightDrive.setPower(FrightPower);
-            BleftDrive.setPower(BleftPower);
-            BrightDrive.setPower(BrightPower);
+            leftDrive.setPower(leftPower);
+            rightDrive.setPower(rightPower);
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime].toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", FleftPower, FrightPower);
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", BleftPower, BrightPower);
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
     }

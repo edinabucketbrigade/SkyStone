@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -53,33 +52,25 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class MecanumTeleop extends LinearOpMode {
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor FleftDrive = null;
-    private DcMotor FrightDrive = null;
-    private DcMotor BleftDrive = null;
-    private DcMotor BrightDrive = null;
-
-
+    private HardwarePushbot_BucketBrigade robot = new HardwarePushbot_BucketBrigade();
     @Override
     public void runOpMode() {
+        robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
+        ElapsedTime runtime = new ElapsedTime();
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        FleftDrive  = hardwareMap.get(DcMotor.class, "Fleft_drive");
-        FrightDrive = hardwareMap.get(DcMotor.class, "Fright_drive");
-        BleftDrive = hardwareMap.get(DcMotor.class,"Bleft_drive" );
-        BrightDrive = hardwareMap.get(DcMotor.class,"Bright_drive" );
+
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        FleftDrive.setDirection(DcMotor.Direction.FORWARD);
-        BleftDrive.setDirection(DcMotor.Direction.FORWARD);
-        FrightDrive.setDirection(DcMotor.Direction.REVERSE);
-        BleftDrive.setDirection(DcMotor.Direction.REVERSE);
+        robot.FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        robot.BackLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        robot.FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        robot.BackRightDrive.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -89,32 +80,48 @@ public class MecanumTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
-            double FleftPower;
-            double FrightPower;
-            double BleftPower;
-            double BrightPower;
+            double FrontLeftPower = 0;
+            double FrontRightPower = 0;
+            double BackLeftPower = 0;
+            double BackRightPower = 0;
 
         if (gamepad1.left_stick_y < 0){
-            FleftDrive.setPower(1);
-            BleftDrive.setPower(1);
+            robot.FrontLeftDrive.setPower(1);
+            robot.BackLeftDrive.setPower(1);
         }
         else if (gamepad1.left_stick_y > 0){
-            FleftDrive.setPower(-1);
-            BleftDrive.setPower(-1);
+            robot.FrontLeftDrive.setPower(-1);
+            robot.BackLeftDrive.setPower(-1);
         }
-        
+        if (gamepad1.right_stick_y < 0){
+                robot.FrontRightDrive.setPower(1);
+                robot.BackRightDrive.setPower(1);
+            }
+        else if (gamepad1.left_stick_y > 0){
+                robot.FrontRightDrive.setPower(-1);
+                robot.BackRightDrive.setPower(-1);
         }
+        if (gamepad1.left_trigger > 0){
+            robot.FrontLeftDrive.setPower(-1);
+            robot.BackLeftDrive.setPower(1);
+            robot.FrontRightDrive.setPower(1);
+            robot.BackRightDrive.setPower(-1);
+        }
+        else if (gamepad1.right_trigger > 0){
+            robot.FrontLeftDrive.setPower(1);
+            robot.BackLeftDrive.setPower(-1);
+            robot.FrontRightDrive.setPower(-1);
+            robot.BackRightDrive.setPower(1);
+        }
+
             // Send calculated power to wheels
-            FleftDrive.setPower(FleftPower);
-            FrightDrive.setPower(FrightPower);
-            BleftDrive.setPower(BleftPower);
-            BrightDrive.setPower(BrightPower);
+
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime].toString());
+           /* telemetry.addData("Status", "Run Time: " + runtime].toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", FleftPower, FrightPower);
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", BleftPower, BrightPower);
-            telemetry.update();
+            telemetry.update();*/
         }
     }
 }

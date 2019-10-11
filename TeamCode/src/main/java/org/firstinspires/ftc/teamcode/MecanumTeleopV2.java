@@ -67,9 +67,9 @@ public class MecanumTeleopV2 extends LinearOpMode {
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         robot.FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        robot.BackLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        robot.FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        robot.BackRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        robot.BackLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        robot.FrontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        robot.BackRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -79,10 +79,22 @@ public class MecanumTeleopV2 extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
-            robot.FrontRightDrive.setPower(-gamepad1.right_stick_y);
-            robot.BackRightDrive.setPower(-gamepad1.right_stick_y);
+            //Forward/Backward
             robot.FrontLeftDrive.setPower(gamepad1.left_stick_y);
-            robot.BackLeftDrive.setPower(-gamepad1.left_stick_y);
+            robot.BackLeftDrive.setPower(gamepad1.left_stick_y);
+            robot.FrontRightDrive.setPower(gamepad1.right_stick_y);
+            robot.BackRightDrive.setPower(gamepad1.right_stick_y);
+
+            //Left
+            robot.FrontLeftDrive.setPower(gamepad1.left_trigger);
+            robot.BackLeftDrive.setPower(-gamepad1.left_trigger);
+            robot.FrontRightDrive.setPower(-gamepad1.left_trigger);
+            robot.BackRightDrive.setPower(gamepad1.left_trigger);
+            //Right
+            robot.FrontLeftDrive.setPower(-gamepad1.right_trigger);
+            robot.BackLeftDrive.setPower(gamepad1.right_trigger);
+            robot.FrontRightDrive.setPower(gamepad1.right_trigger);
+            robot.BackRightDrive.setPower(-gamepad1.right_trigger);
 
             // Send calculated power to wheels
 

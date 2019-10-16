@@ -63,12 +63,14 @@ public class MecanumTeleopV2 extends LinearOpMode {
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
-
+        // This block of code is already in your HardwarePushbot_BucketBrigade class. RHS
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         robot.FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         robot.BackLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         robot.FrontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        // Should be REVERSE.
+        // This might be the problem if you have fixed the wiring polarity problem. RHS
         robot.BackRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)

@@ -107,7 +107,10 @@ public class God extends LinearOpMode {
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                           robot.FrontLeftDrive.getCurrentPosition(),
-                          robot.FrontRightDrive.getCurrentPosition()
+                          robot.FrontRightDrive.getCurrentPosition(),
+                robot.FrontRightDrive.getCurrentPosition(),
+                robot.FrontRightDrive.getCurrentPosition();
+
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)

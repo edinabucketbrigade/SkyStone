@@ -70,30 +70,33 @@ public class MecanumTeleopV2 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftStick = gamepad1.left_stick_y;
-            double rightStick = gamepad1.right_stick_x;
+            double rightStick = gamepad1.right_stick_y;
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
 
 
-            if (leftTrigger > 0 || rightTrigger > 0) {
+            if (leftTrigger > 0) {
                 //left strafe
                 robot.FrontLeftDrive.setPower(-leftTrigger); //in
                 robot.BackLeftDrive.setPower(leftTrigger);  //in
                 robot.FrontRightDrive.setPower(leftTrigger); //out
                 robot.BackRightDrive.setPower(-leftTrigger); //out
-                //right strafe
-                robot.FrontLeftDrive.setPower(rightTrigger); //out
-                robot.BackLeftDrive.setPower(-rightTrigger); //out
-                robot.FrontRightDrive.setPower(-rightTrigger); //in
-                robot.BackRightDrive.setPower(rightTrigger); //in
+
             }
-            else{
-                robot.FrontLeftDrive.setPower(leftStick);
-                robot.BackLeftDrive.setPower(leftStick);
-                robot.FrontRightDrive.setPower(rightStick);
-                robot.BackRightDrive.setPower(rightStick);
+            else {
+                if (rightTrigger > 0) {
+                    //right strafe
+                    robot.FrontLeftDrive.setPower(rightTrigger); //out
+                    robot.BackLeftDrive.setPower(-rightTrigger); //out
+                    robot.FrontRightDrive.setPower(-rightTrigger); //in
+                    robot.BackRightDrive.setPower(rightTrigger); //in
+                } else {
+                    robot.FrontLeftDrive.setPower(leftStick);
+                    robot.BackLeftDrive.setPower(leftStick);
+                    robot.FrontRightDrive.setPower(rightStick);
+                    robot.BackRightDrive.setPower(rightStick);
+                }
             }
-            
 
 
             // Show the elapsed game time and wheel power.

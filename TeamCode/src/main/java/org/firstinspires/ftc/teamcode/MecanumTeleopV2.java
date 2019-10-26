@@ -77,19 +77,19 @@ public class MecanumTeleopV2 extends LinearOpMode {
 
             if (leftTrigger > 0) {
                 //left strafe
-                robot.FrontLeftDrive.setPower(-leftTrigger); //in
-                robot.BackLeftDrive.setPower(leftTrigger);  //in
-                robot.FrontRightDrive.setPower(leftTrigger); //out
-                robot.BackRightDrive.setPower(-leftTrigger); //out
+                robot.FrontLeftDrive.setPower(leftTrigger); //out
+                robot.BackLeftDrive.setPower(-leftTrigger);  //out
+                robot.FrontRightDrive.setPower(-leftTrigger); //in
+                robot.BackRightDrive.setPower(leftTrigger); //in
 
             }
             else {
                 if (rightTrigger > 0) {
                     //right strafe
-                    robot.FrontLeftDrive.setPower(rightTrigger); //out
-                    robot.BackLeftDrive.setPower(-rightTrigger); //out
-                    robot.FrontRightDrive.setPower(-rightTrigger); //in
-                    robot.BackRightDrive.setPower(rightTrigger); //in
+                    robot.FrontLeftDrive.setPower(-rightTrigger); //out
+                    robot.BackLeftDrive.setPower(rightTrigger); //out
+                    robot.FrontRightDrive.setPower(rightTrigger); //in
+                    robot.BackRightDrive.setPower(-rightTrigger); //in
                 } else {
                     robot.FrontLeftDrive.setPower(leftStick);
                     robot.BackLeftDrive.setPower(leftStick);

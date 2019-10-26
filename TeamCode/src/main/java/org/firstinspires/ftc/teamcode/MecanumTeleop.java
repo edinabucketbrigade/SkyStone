@@ -31,7 +31,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -48,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="MecanumTeleop", group="Linear Opmode")
+@TeleOp(name="MecanumTeleop_Advanced", group="Linear Opmode")
 //@Disabled
 public class MecanumTeleop extends LinearOpMode {
 
@@ -59,66 +58,39 @@ public class MecanumTeleop extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         ElapsedTime runtime = new ElapsedTime();
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
 
-
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-        robot.FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        robot.BackLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        robot.FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        robot.BackRightDrive.setDirection(DcMotor.Direction.REVERSE);
-
-
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            double leftStick = gamepad1.left_stick_y;
+            double rightStick = gamepad1.right_stick_y;
+            double leftTrigger = gamepad1.left_trigger;
+            double rightTrigger = gamepad1.right_trigger;
 
-            // Setup a variable for each drive wheel to save power level for telemetry
 
-        if (gamepad1.left_stick_y < 0){
-            robot.FrontLeftDrive.setPower(1);
-            robot.BackLeftDrive.setPower(1);
-        }
-        else if (gamepad1.left_stick_y > 0){
-            robot.FrontLeftDrive.setPower(-1);
-            robot.BackLeftDrive.setPower(-1);
-        }
+            if (leftTrigger > 0) {
+                //left strafe
+                robot.FrontLeftDrive.setPower(leftTrigger); //out
+                robot.BackLeftDrive.setPower(-leftTrigger);  //out
+                robot.FrontRightDrive.setPower(-leftTrigger); //in
+                robot.BackRightDrive.setPower(leftTrigger); //in
 
-        if (gamepad1.right_stick_y < 0){
-                robot.FrontRightDrive.setPower(1);
-                robot.BackRightDrive.setPower(1);
             }
-        else if (gamepad1.right_stick_y > 0){
-                robot.FrontRightDrive.setPower(-1);
-                robot.BackRightDrive.setPower(-1);
-        }
-        if (gamepad1.left_trigger > 0){
-            robot.FrontLeftDrive.setPower(-1);
-            robot.BackLeftDrive.setPower(1);
-            robot.FrontRightDrive.setPower(1);
-            robot.BackRightDrive.setPower(-1);
-        }
-        else if (gamepad1.right_trigger > 0){
-            robot.FrontLeftDrive.setPower(1);
-            robot.BackLeftDrive.setPower(-1);
-            robot.FrontRightDrive.setPower(-1);
-            robot.BackRightDrive.setPower(1);
-        }
-
-            // Send calculated power to wheels
-
-
-            // Show the elapsed game time and wheel power.
-           /* telemetry.addData("Status", "Run Time: " + runtime].toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", FleftPower, FrightPower);
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", BleftPower, BrightPower);
-            telemetry.update();*/
+            else {
+                if (rightTrigger > 0) {
+                    //right strafe
+                    robot.FrontLeftDrive.setPower(-rightTrigger); //out
+                    robot.BackLeftDrive.setPower(rightTrigger); //out
+                    robot.FrontRightDrive.setPower(rightTrigger); //in
+                    robot.BackRightDrive.setPower(-rightTrigger); //in
+                } else {
+                    robot.FrontLeftDrive.setPower(leftStick);
+                    robot.BackLeftDrive.setPower(leftStick);
+                    robot.FrontRightDrive.setPower(rightStick);
+                    robot.BackRightDrive.setPower(rightStick);
+                }
+            }
         }
     }
 }

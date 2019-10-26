@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -62,9 +61,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Run to Position", group = "Pushbot")
-@Disabled
-public class RunToPosition extends LinearOpMode {
+@Autonomous(name = "Run to Position Blue", group = "Pushbot")
+//@Disabled
+public class RunToPosition_BlueLeft extends LinearOpMode {
 
     /* Declare OpMode members. */
     private HardwarePushbot_BucketBrigade robot = new HardwarePushbot_BucketBrigade(); // Use a Pushbot's hardware
@@ -77,6 +76,8 @@ public class RunToPosition extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.6;
     static final double TURN_SPEED = 0.5;
+    static final double UP_POS = 0.75;     // Maximum rotational position
+    static final double DOWN_POS = 0.25;     // Minimum rotational position
 
     @Override
     public void runOpMode() {
@@ -114,20 +115,24 @@ public class RunToPosition extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderStraf(DRIVE_SPEED,  -48,5.0); // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(DRIVE_SPEED, 48,48, -5.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED,2,-2,5.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        encoderStraf(DRIVE_SPEED, 15, 5.0); // S1: Forward 47 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, 27, 27, 5.0);
+        //robot.Arm.setPosition(DOWN_POS);
+        encoderDrive(DRIVE_SPEED, -27, -27, 5.0);
+        //robot.Arm.setPosition(UP_POS);
+        encoderStraf(DRIVE_SPEED, -45, 5.0);// S2: Turn Right 12 Inches with 4 Sec timeout
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
 
- public void encoderStraf(double speed, double distance, double timeoutS) {
-        encoderDrive(speed, -distance, distance,distance,-distance, timeoutS);
- }
+    public void encoderStraf(double speed, double distance, double timeoutS) {
+        encoderDrive(speed, -distance, distance, distance, -distance, timeoutS);
+    }
 
- public void encoderDrive(double speed, double leftDistance,double rightDistance, double timeoutS) {
-     encoderDrive(speed, leftDistance, rightDistance,leftDistance,rightDistance, timeoutS);
- }
+    public void encoderDrive(double speed, double leftDistance, double rightDistance, double timeoutS) {
+        encoderDrive(speed, leftDistance, rightDistance, leftDistance, rightDistance, timeoutS);
+    }
+
     /*
      *  Method to perfmorm a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
@@ -151,7 +156,7 @@ public class RunToPosition extends LinearOpMode {
             newFrontLeftTarget = robot.FrontLeftDrive.getCurrentPosition() + (int) (FrontLeftInches * COUNTS_PER_INCH);
             newFrontRightTarget = robot.FrontRightDrive.getCurrentPosition() + (int) (FrontRightInches * COUNTS_PER_INCH);
             newBackLeftTarget = robot.BackLeftDrive.getCurrentPosition() + (int) (BackLeftInches * COUNTS_PER_INCH);
-            newBackRightTarget = robot.BackLeftDrive.getCurrentPosition() + (int) (BackRightInches * COUNTS_PER_INCH);
+            newBackRightTarget = robot.BackRightDrive.getCurrentPosition() + (int) (BackRightInches * COUNTS_PER_INCH);
             robot.FrontLeftDrive.setTargetPosition(newFrontLeftTarget);
             robot.FrontRightDrive.setTargetPosition(newFrontRightTarget);
             robot.BackLeftDrive.setTargetPosition(newBackLeftTarget);
@@ -178,11 +183,13 @@ public class RunToPosition extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (robot.FrontLeftDrive.isBusy() && robot.FrontRightDrive.isBusy() && robot.BackLeftDrive.isBusy() && robot.BackRightDrive.isBusy())){
+                    (robot.FrontLeftDrive.isBusy() && robot.FrontRightDrive.isBusy() && robot.BackLeftDrive.isBusy() && robot.BackRightDrive.isBusy())) {
 
                 // Display it for the driver.
                 //telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-                telemetry.addData("Path2", "Running at %7d :%7d",
+                telemetry.addData("Path2", "Running at %7d %7d %7d %7d",
+                        robot.FrontLeftDrive.getCurrentPosition(),
+                        robot.FrontRightDrive.getCurrentPosition(),
                         robot.FrontLeftDrive.getCurrentPosition(),
                         robot.FrontRightDrive.getCurrentPosition());
                 telemetry.update();
@@ -191,11 +198,14 @@ public class RunToPosition extends LinearOpMode {
             // Stop all motion;
             robot.FrontLeftDrive.setPower(0);
             robot.FrontRightDrive.setPower(0);
+            robot.BackLeftDrive.setPower(0);
+            robot.BackRightDrive.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.FrontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.FrontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+            robot.BackLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.BackRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             //  sleep(250);   // optional pause after each move
         }
     }

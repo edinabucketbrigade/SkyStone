@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -56,6 +57,7 @@ public class HardwarePushbot_BucketBrigade
     public DcMotor  FrontRightDrive  = null;
     public DcMotor  BackLeftDrive   = null;
     public DcMotor  BackRightDrive  = null;
+    public Servo    Arm    = null;
 
 
     public static final double MID_SERVO       =  0.5 ;
@@ -81,6 +83,7 @@ public class HardwarePushbot_BucketBrigade
         FrontRightDrive = hwMap.get(DcMotor.class, "Fright_drive");
         BackLeftDrive  = hwMap.get(DcMotor.class, "Bleft_drive");
         BackRightDrive = hwMap.get(DcMotor.class, "Bright_drive");
+        Arm = hwMap.get(Servo.class,"Arm");
 
         FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors
         BackLeftDrive.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors

@@ -108,3 +108,7 @@ public class MecanumTeleopV2 extends LinearOpMode {
         }
     }
 }
+/* if (-.1<left_joystik<.1){
+    left.setpower(0)}
+    if
+ */

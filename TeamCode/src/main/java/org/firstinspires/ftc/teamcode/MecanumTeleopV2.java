@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -39,19 +40,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
- *
+ * <p>
  * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
- *
+ * <p>
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="MecanumTeleopV2", group="Linear Opmode")
+@TeleOp(name = "MecanumTeleopV2", group = "Linear Opmode")
 //@Disabled
 public class MecanumTeleopV2 extends LinearOpMode {
 
     private HardwarePushbot_BucketBrigade robot = new HardwarePushbot_BucketBrigade();
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -73,6 +75,10 @@ public class MecanumTeleopV2 extends LinearOpMode {
             double rightStick = gamepad1.right_stick_y;
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
+            boolean Dpad_UP = gamepad2.dpad_up;
+            boolean Dpad_DOWN = gamepad2.dpad_down;
+            boolean A = gamepad2.a;
+            boolean B = gamepad2.b
 
 
             if (leftTrigger > 0) {
@@ -82,8 +88,7 @@ public class MecanumTeleopV2 extends LinearOpMode {
                 robot.FrontRightDrive.setPower(-leftTrigger); //in
                 robot.BackRightDrive.setPower(leftTrigger); //in
 
-            }
-            else {
+            } else {
                 if (rightTrigger > 0) {
                     //right strafe
                     robot.FrontLeftDrive.setPower(-rightTrigger); //out
@@ -98,17 +103,78 @@ public class MecanumTeleopV2 extends LinearOpMode {
                 }
             }
 
+            if (IsDpadUP()) {
+                robot.BlockArm.setTargetPosition(360 + 1440); //1440 one revolution, 360 is a quarter of a revolution
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.BlockArm.setPower(0.25);
+                while (robot.BlockArm.isBusy()) {
+                    sleep(100);
+                }
+                robot.BlockArm.setPower(0);
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            } else if (Dpad_DOWN) {
+                robot.BlockArm.setTargetPosition(0); //Going back to down
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.BlockArm.setPower(0.25);
+                while (robot.BlockArm.isBusy()) {
+                    sleep(100);
+                }
+                robot.BlockArm.setPower(0);
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (ButtonA()) {
+                robot.Arm.setPosition(.5);
+                sleep(100);
+            }
+            else if (ButtonB()){
+                robot.Arm.setPosition(0);
+                sleep(100);
+            }
+
 
             // Show the elapsed game time and wheel power.
            /* telemetry.addData("Status", "Run Time: " + runtime].toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", FleftPower, FrightPower);
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", BleftPower, BrightPower);
             telemetry.update();*/
-           //Hello
+            //Hello
+        }
+    }
+
+    private boolean IsDpadUP() {
+        if (gamepad2.dpad_up) {
+            while (gamepad2.dpad_up) {
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean IsDpadDOWN() {
+        if (gamepad2.dpad_down) {
+            while (gamepad2.dpad_down) {
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean ButtonA() {
+        if (gamepad2.a) {
+            while (gamepad2.a) {
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean ButtonB() {
+        if (gamepad2.a) {
+            while (gamepad2.a) {
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }
-/* if (-.1<left_joystik<.1){
-    left.setpower(0)}
-    if
- */

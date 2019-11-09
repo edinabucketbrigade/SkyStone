@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -73,6 +74,10 @@ public class MecanumTeleopV2 extends LinearOpMode {
             double rightStick = gamepad1.right_stick_y;
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
+            boolean Dpad_UP = gamepad2.dpad_up;
+            boolean Dpad_DOWN = gamepad2.dpad_down;
+            boolean A = gamepad2.a;
+            boolean B = gamepad2.b;
 
 
             if (leftTrigger > 0) {
@@ -82,8 +87,7 @@ public class MecanumTeleopV2 extends LinearOpMode {
                 robot.FrontRightDrive.setPower(-leftTrigger); //in
                 robot.BackRightDrive.setPower(leftTrigger); //in
 
-            }
-            else {
+            } else {
                 if (rightTrigger > 0) {
                     //right strafe
                     robot.FrontLeftDrive.setPower(-rightTrigger); //out
@@ -98,6 +102,22 @@ public class MecanumTeleopV2 extends LinearOpMode {
                 }
             }
 
+            if (IsDpadUP()) {
+                robot.BlockArm.setTargetPosition(360 + 1440); //1440 one revolution, 360 is a quarter of a revolution
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.BlockArm.setPower(0.25);
+                while (robot.BlockArm.isBusy()) {
+
+                }
+            } else if (Dpad_DOWN) {
+                robot.BlockArm.setPower(-0.5);
+            } else {
+                robot.BlockArm.setPower(0);
+            }
+            if (A) {
+                robot.Arm.setPosition(.5);
+            }
+
 
             // Show the elapsed game time and wheel power.
            /* telemetry.addData("Status", "Run Time: " + runtime].toString());
@@ -105,6 +125,25 @@ public class MecanumTeleopV2 extends LinearOpMode {
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", BleftPower, BrightPower);
             telemetry.update();*/
            //Hello
+        }
+    }
+
+    private boolean IsDpadUP() {
+        if (gamepad2.dpad_up) {
+            while (gamepad2.dpad_up) {
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean IsDpadDOWN() {
+        if (gamepad2.dpad_down) {
+            while (gamepad2.dpad_down) {
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }

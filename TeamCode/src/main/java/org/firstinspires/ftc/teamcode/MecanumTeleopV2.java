@@ -107,15 +107,27 @@ public class MecanumTeleopV2 extends LinearOpMode {
                 robot.BlockArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.BlockArm.setPower(0.25);
                 while (robot.BlockArm.isBusy()) {
-
+                    sleep(100);
                 }
-            } else if (Dpad_DOWN) {
-                robot.BlockArm.setPower(-0.5);
-            } else {
                 robot.BlockArm.setPower(0);
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            } else if (Dpad_DOWN) {
+                robot.BlockArm.setTargetPosition(0); //Going back to down
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.BlockArm.setPower(0.25);
+                while (robot.BlockArm.isBusy()) {
+                    sleep(100);
+                }
+                robot.BlockArm.setPower(0);
+                robot.BlockArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            if (A) {
+            if (ButtonA()) {
                 robot.Arm.setPosition(.5);
+                sleep(100);
+            }
+            else if (ButtonB()){
+                robot.Arm.setPosition(0);
+                sleep(100);
             }
 
 
@@ -140,6 +152,24 @@ public class MecanumTeleopV2 extends LinearOpMode {
     private boolean IsDpadDOWN() {
         if (gamepad2.dpad_down) {
             while (gamepad2.dpad_down) {
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean ButtonA() {
+        if (gamepad2.a) {
+            while (gamepad2.a) {
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean ButtonB() {
+        if (gamepad2.a) {
+            while (gamepad2.a) {
             }
             return true;
         } else {

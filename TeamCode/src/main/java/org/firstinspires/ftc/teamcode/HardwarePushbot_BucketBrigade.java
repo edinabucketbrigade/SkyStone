@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -59,7 +60,7 @@ public class HardwarePushbot_BucketBrigade
     public DcMotor  BackRightDrive  = null;
     public Servo    Arm = null;
     public DcMotor BlockArm = null;
-    public Servo Grabber = null;
+    public CRServo Grabber = null;
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -86,7 +87,7 @@ public class HardwarePushbot_BucketBrigade
         BackLeftDrive  = hwMap.get(DcMotor.class, "Bleft_drive");
         BackRightDrive = hwMap.get(DcMotor.class, "Bright_drive");
         Arm = hwMap.get(Servo.class,"Arm");
-        Grabber = hwMap.get(Servo.class,"Grabber");
+        Grabber = hwMap.get(CRServo.class,"Grabber");
         BlockArm = hwMap.get(DcMotor.class,"BlockArm");
 
         FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);// Set to REVERSE if using AndyMark motors

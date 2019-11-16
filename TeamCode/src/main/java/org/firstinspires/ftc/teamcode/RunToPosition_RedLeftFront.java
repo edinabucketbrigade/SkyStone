@@ -61,9 +61,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Run to Position Blue", group = "Blue")
+@Autonomous(name = "Run to Position Red Front", group = "Red")
 //@Disabled
-public class RunToPosition_BlueLeft extends LinearOpMode {
+public class RunToPosition_RedLeftFront extends LinearOpMode {
 
     /* Declare OpMode members. */
     private HardwarePushbot_BucketBrigade robot = new HardwarePushbot_BucketBrigade(); // Use a Pushbot's hardware
@@ -115,14 +115,17 @@ public class RunToPosition_BlueLeft extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderStraf(DRIVE_SPEED, 15, 5.0); // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(DRIVE_SPEED, 35, 35, 5.0);
+        encoderStraf(DRIVE_SPEED, -15, 5.0); // S1: Forward 47 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, 32,32, 5.0);
         robot.Arm.setPosition(DOWN_POS);
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, -32, -32, 5.0);
+        encoderDrive(DRIVE_SPEED, -35, -35, 5.0);
         robot.Arm.setPosition(UP_POS);
         sleep(1000);
-        encoderStraf(DRIVE_SPEED, -55, 5.0);// S2: Turn Right 12 Inches with 4 Sec timeout
+        encoderStraf(DRIVE_SPEED, 32, 5.0);
+        encoderDrive(DRIVE_SPEED, 20, 20, 3.0);
+        encoderStraf(DRIVE_SPEED, 23, 5.0);
+        // S2: Turn Right 12 Inches with 4 Sec timeout
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }

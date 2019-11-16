@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Run to Position Red", group = "Pushbot")
+@Autonomous(name = "Run to Position Red", group = "Red")
 //@Disabled
 public class RunToPosition_RedLeft extends LinearOpMode {
 
@@ -119,7 +119,7 @@ public class RunToPosition_RedLeft extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, 32,32, 5.0);
         robot.Arm.setPosition(DOWN_POS);
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, -33, -33, 5.0);
+        encoderDrive(DRIVE_SPEED, -35, -35, 5.0);
         robot.Arm.setPosition(UP_POS);
         sleep(1000);
         encoderStraf(DRIVE_SPEED, 55, 5.0);// S2: Turn Right 12 Inches with 4 Sec timeout

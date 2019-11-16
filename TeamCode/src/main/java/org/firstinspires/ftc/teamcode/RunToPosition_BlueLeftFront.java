@@ -61,9 +61,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Run to Position Blue", group = "Blue")
+@Autonomous(name = "Run to Position Blue Front", group = "Blue")
 //@Disabled
-public class RunToPosition_BlueLeft extends LinearOpMode {
+public class RunToPosition_BlueLeftFront extends LinearOpMode {
 
     /* Declare OpMode members. */
     private HardwarePushbot_BucketBrigade robot = new HardwarePushbot_BucketBrigade(); // Use a Pushbot's hardware
@@ -122,7 +122,9 @@ public class RunToPosition_BlueLeft extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, -32, -32, 5.0);
         robot.Arm.setPosition(UP_POS);
         sleep(1000);
-        encoderStraf(DRIVE_SPEED, -55, 5.0);// S2: Turn Right 12 Inches with 4 Sec timeout
+        encoderStraf(DRIVE_SPEED, -30, 5.0);// S2: Turn Right 12 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 20, 20, 3.0);
+        encoderStraf(DRIVE_SPEED, -25, 5.0);
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }

@@ -115,16 +115,18 @@ public class RunToPosition_RedLeftFront extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
+        encoderDrive(DRIVE_SPEED, 3, 3, 5.0);
         encoderStraf(DRIVE_SPEED, -15, 5.0); // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(DRIVE_SPEED, 32,32, 5.0);
+        encoderDrive(DRIVE_SPEED, 31,31, 5.0);
         robot.Arm.setPosition(DOWN_POS);
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, -35, -35, 5.0);
+        encoderDrive(DRIVE_SPEED, -33, -33, 5.0);
         robot.Arm.setPosition(UP_POS);
         sleep(1000);
-        encoderStraf(DRIVE_SPEED, 32, 5.0);
+        encoderStraf(DRIVE_SPEED, 35, 5.0);
         encoderDrive(DRIVE_SPEED, 20, 20, 3.0);
-        encoderStraf(DRIVE_SPEED, 23, 5.0);
+        encoderStraf(DRIVE_SPEED, -12, 5.0);
+        encoderStraf(DRIVE_SPEED, 35, 5.0);
         // S2: Turn Right 12 Inches with 4 Sec timeout
         telemetry.addData("Path", "Complete");
         telemetry.update();

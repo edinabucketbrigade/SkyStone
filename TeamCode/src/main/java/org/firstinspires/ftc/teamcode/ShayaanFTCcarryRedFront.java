@@ -115,7 +115,7 @@ public class ShayaanFTCcarryRedFront extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED, 24, 24, 5);
+        encoderDrive(DRIVE_SPEED, 25, 25, 5);
         encoderStraf(DRIVE_SPEED, -45, 5.0);
         telemetry.addData("Path", "Complete");
         telemetry.update();
